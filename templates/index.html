@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link" href="{%url 'core:index'%}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{%url 'user:register'%}">Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{%url 'user:login'%}">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{%url 'user:logout'%}">Logout</a>
+      </li>
+
+
+      {% if request.user.is_authenticated %}
+
+
+
+      <li class="nav-item">
+        <a class="nav-link" href="{%url 'core:create'%}">Create</a>
+      </li>
+
+      {% endif %}
+
+    </ul>
+  </div>
+</nav>
+
+<div class="card" {% load static %}tyle="width: 18rem;">
+  <div class="card-body">
+    <p class="btn btn-primary">{{request.user}}</p>
+    <hr>
+
+    {% for x in index %}
+    {% if x.is_active %}
+    <h5 class="card-title">{{x.title }}</h5>
+    <p class="card-text">{{x.count}} Views</p>
+    <p class="card-text">{{x.text |safe }}</p>
+
+    <br>
+    <br>
+
+    <a href="{{x.get_absolute_url}}" class="btn btn-primary">Go somewhere | User: {{x.user}} </a>
+
+
+
+
+    {% if request.user.is_authenticated %}
+
+    <li class="btn btn-primary">
+
+      <a class="btn btn-primary" href="{%url 'core:update' x.id %}">Update</a>
+    </li>
+
+
+    {% for x in index.comments.all %}
+    {{x}}
+    {% endfor %}
+    <li class="btn btn-danger">
+      <a class="btn btn-danger" href="{%url 'core:delete' x.id %}">Delete</a>
+    </li>
+
+    <br>
+    <li class="btn btn-primary">
+      <a class="btn btn-primary" href="">{{x.comments.all|length}}Comment</a>
+    </li>
+    <hr>
+    {% endif %}
+    {% endif %}
+
+    {% endfor %}
+    <section class="pt-50 pb-100">
+      <div class="container">
+        <form class="subscribe-form" action="{% url 'core:subscribe' %}" method="POST">
+          {% csrf_token %}
+          {{sub_forms}}
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>
+
+{% endblock content %}
