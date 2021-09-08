@@ -85,7 +85,7 @@
       <div class="container">
         <form class="subscribe-form" action="{% url 'core:subscribe' %}" method="POST">
           {% csrf_token %}
-          {{sub_forms}}
+          {{sub_gforms}}
           <button type="submit" class="btn btn-primary">Subscribe</button>
         </form>
       </div>
