@@ -87,3 +87,5 @@ def subscribe(request):
             send_mail("Subscribe succesfully","You subscribe succesfully. We send announcment. Thanks!",from_email,to)
             return redirect('/')
     return redirect('/')
+
+
